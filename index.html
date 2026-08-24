@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A curated AI learning library covering machine learning, deep learning, and agentic AI."
+    />
+    <title>AI Learning Library</title>
+    <style>
+      :root {
+        --ink: #172033;
+        --muted: #667085;
+        --paper: #f7f8fc;
+        --card: #ffffff;
+        --line: #e7eaf1;
+        --violet: #635bff;
+        --violet-dark: #4942c4;
+        --teal: #12a594;
+        --shadow: 0 18px 45px rgba(31, 38, 68, 0.09);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font:
+          16px/1.55 Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+      .shell {
+        width: min(1160px, calc(100% - 40px));
+        margin: auto;
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 76px 0 64px;
+        color: #fff;
+        background: linear-gradient(
+          120deg,
+          #171b3b 0%,
+          #303079 52%,
+          #635bff 100%
+        );
+      }
+      .hero::after {
+        content: '';
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        right: -100px;
+        top: -170px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 35px rgba(255, 255, 255, 0.04),
+          0 0 0 70px rgba(255, 255, 255, 0.04);
+      }
+      .eyebrow {
+        margin: 0 0 14px;
+        color: #b9c1ff;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 700px;
+        margin: 0;
+        font-size: clamp(2.5rem, 7vw, 5.3rem);
+        line-height: 0.98;
+        letter-spacing: -0.06em;
+      }
+      .intro {
+        max-width: 620px;
+        margin: 24px 0 0;
+        color: #d9dcff;
+        font-size: 1.1rem;
+      }
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+      .pill {
+        padding: 8px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        color: #f0f1ff;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 0.86rem;
+      }
+
+      main {
+        padding: 48px 0 72px;
+      }
+      .toolbar {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+      h2 {
+        margin: 0;
+        font-size: 1.65rem;
+        letter-spacing: -0.03em;
+      }
+      .subtle {
+        margin: 4px 0 0;
+        color: var(--muted);
+      }
+      .search {
+        width: min(300px, 100%);
+        padding: 12px 15px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        outline: none;
+        color: var(--ink);
+        background: var(--card);
+        font: inherit;
+        box-shadow: 0 3px 12px rgba(31, 38, 68, 0.03);
+      }
+      .search:focus {
+        border-color: var(--violet);
+        box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.15);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        min-height: 300px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--card);
+        box-shadow: 0 5px 18px rgba(31, 38, 68, 0.03);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .card:hover {
+        border-color: #c9c6ff;
+        box-shadow: var(--shadow);
+        transform: translateY(-4px);
+      }
+      .number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 27px;
+        border-radius: 11px;
+        color: var(--violet-dark);
+        background: #eeedff;
+        font-weight: 800;
+      }
+      .card:nth-child(3n) .number {
+        color: #087b6f;
+        background: #ddf7f2;
+      }
+      .card:nth-child(4n) .number {
+        color: #a45c10;
+        background: #fff0d9;
+      }
+      .tag {
+        margin: 0 0 8px;
+        color: var(--muted);
+        font-size: 0.73rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        line-height: 1.18;
+        letter-spacing: -0.025em;
+      }
+      .description {
+        margin: 13px 0 22px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .actions {
+        display: flex;
+        gap: 9px;
+        margin-top: auto;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 8px 13px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 0.86rem;
+        font-weight: 700;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .button.primary {
+        border-color: var(--violet);
+        color: #fff;
+        background: var(--violet);
+      }
+      .button.primary:hover {
+        background: var(--violet-dark);
+      }
+      .button.secondary:hover {
+        color: var(--violet-dark);
+        background: #f0efff;
+      }
+      .empty {
+        display: none;
+        padding: 42px;
+        border: 1px dashed #cbd0dc;
+        border-radius: 16px;
+        color: var(--muted);
+        text-align: center;
+      }
+      footer {
+        padding: 24px 0 35px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.87rem;
+      }
+
+      @media (max-width: 950px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 620px) {
+        .shell {
+          width: min(100% - 28px, 520px);
+        }
+        .hero {
+          padding: 54px 0 48px;
+        }
+        main {
+          padding-top: 34px;
+        }
+        .toolbar {
+          align-items: stretch;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .search {
+          width: 100%;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="shell">
+        <p class="eyebrow">Independent study collection · 2026</p>
+        <h1>Build your AI foundation.</h1>
+        <p class="intro">
+          Eight focused reports to take you from machine learning fundamentals
+          to modern autonomous and agentic systems.
+        </p>
+        <div class="hero-meta" aria-label="Library statistics">
+          <span class="pill">8 reports</span>
+          <span class="pill">ML · DL · AI systems</span>
+          <span class="pill">Self-paced</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <div class="toolbar">
+        <div>
+          <h2>The learning path</h2>
+          <p class="subtle">
+            Start with the fundamentals, then move toward autonomous AI.
+          </p>
+        </div>
+        <label>
+          <span class="visually-hidden">Search reports</span>
+          <input
+            class="search"
+            type="search"
+            placeholder="Search reports…"
+            aria-label="Search reports"
+          />
+        </label>
+      </div>
+
+      <section class="grid" aria-label="AI reports">
+        <article
+          class="card"
+          data-search="machine learning blueprint core concepts workflows fundamentals"
+        >
+          <div class="number">01</div>
+          <p class="tag">Foundations</p>
+          <h3>Machine Learning Blueprint</h3>
+          <p class="description">
+            Core machine learning concepts and workflows.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Machine_Learning_Blueprint.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Machine_Learning_Blueprint.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="supervised learning fundamentals methods foundations"
+        >
+          <div class="number">02</div>
+          <p class="tag">Foundations</p>
+          <h3>Supervised Learning Fundamentals</h3>
+          <p class="description">
+            Supervised learning methods and foundational ideas.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Supervised_Learning_Fundamentals.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Supervised_Learning_Fundamentals.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="unsupervised learning strategy clustering dimensionality reduction patterns"
+        >
+          <div class="number">03</div>
+          <p class="tag">Foundations</p>
+          <h3>Unsupervised Learning Strategy</h3>
+          <p class="description">
+            Clustering, dimensionality reduction, and pattern discovery.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Unsupervised_Learning_Strategy.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Unsupervised_Learning_Strategy.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="deep learning blueprint neural networks techniques"
+        >
+          <div class="number">04</div>
+          <p class="tag">Deep learning</p>
+          <h3>Deep Learning Blueprint</h3>
+          <p class="description">
+            Neural networks and practical deep learning techniques.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Deep_Learning_Blueprint.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Deep_Learning_Blueprint.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="modern ai systems architecture design structure"
+        >
+          <div class="number">05</div>
+          <p class="tag">Systems</p>
+          <h3>Modern AI Systems Architecture</h3>
+          <p class="description">
+            Designing and structuring modern AI systems.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Modern_AI_Systems_Architecture.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Modern_AI_Systems_Architecture.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="architecting autonomous ai architectures patterns"
+        >
+          <div class="number">06</div>
+          <p class="tag">Autonomy</p>
+          <h3>Architecting Autonomous AI</h3>
+          <p class="description">
+            Architectures and patterns for autonomous AI.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Architecting_Autonomous_AI.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Architecting_Autonomous_AI.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="agentic ai architecture agents systems"
+        >
+          <div class="number">07</div>
+          <p class="tag">Agentic AI</p>
+          <h3>Agentic AI Architecture</h3>
+          <p class="description">Agent-based AI systems and architecture.</p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Agentic_AI_Architecture.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="Agentic_AI_Architecture.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="agentic ai playbook practical building solutions"
+        >
+          <div class="number">08</div>
+          <p class="tag">Agentic AI</p>
+          <h3>Agentic AI Playbook</h3>
+          <p class="description">
+            Practical guidance for building agentic AI solutions.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Agentic_AI_Playbook.pdf"
+              target="_blank"
+              >Read report</a
+            ><a class="button secondary" href="Agentic_AI_Playbook.pdf" download
+              >Download</a
+            >
+          </div>
+        </article>
+      </section>
+      <p class="empty">No reports match your search.</p>
+    </main>
+
+    <footer>
+      <div class="shell">
+        AI Learning Library · Open a report to begin your next deep dive.
+      </div>
+    </footer>
+    <script>
+      const search = document.querySelector('.search');
+      const cards = [...document.querySelectorAll('.card')];
+      const empty = document.querySelector('.empty');
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLowerCase();
+        let visible = 0;
+        cards.forEach((card) => {
+          const match = card.dataset.search.includes(query);
+          card.hidden = !match;
+          if (match) visible++;
+        });
+        empty.style.display = visible ? 'none' : 'block';
+      });
+    </script>
+  </body>
+</html>
