@@ -13,14 +13,12 @@
         --ink: #172033;
         --muted: #667085;
         --paper: #f7f8fc;
-        --card: #ffffff;
+        --card: #fff;
         --line: #e7eaf1;
         --violet: #635bff;
-        --violet-dark: #4942c4;
-        --teal: #12a594;
+        --dark: #4942c4;
         --shadow: 0 18px 45px rgba(31, 38, 68, 0.09);
       }
-
       * {
         box-sizing: border-box;
       }
@@ -45,29 +43,14 @@
         margin: auto;
       }
       .hero {
-        position: relative;
-        overflow: hidden;
         padding: 76px 0 64px;
         color: #fff;
         background: linear-gradient(
           120deg,
-          #171b3b 0%,
+          #171b3b,
           #303079 52%,
-          #635bff 100%
+          var(--violet)
         );
-      }
-      .hero::after {
-        content: '';
-        position: absolute;
-        width: 420px;
-        height: 420px;
-        right: -100px;
-        top: -170px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        box-shadow:
-          0 0 0 35px rgba(255, 255, 255, 0.04),
-          0 0 0 70px rgba(255, 255, 255, 0.04);
       }
       .eyebrow {
         margin: 0 0 14px;
@@ -104,7 +87,6 @@
         background: rgba(255, 255, 255, 0.1);
         font-size: 0.86rem;
       }
-
       main {
         padding: 48px 0 72px;
       }
@@ -133,7 +115,6 @@
         color: var(--ink);
         background: var(--card);
         font: inherit;
-        box-shadow: 0 3px 12px rgba(31, 38, 68, 0.03);
       }
       .search:focus {
         border-color: var(--violet);
@@ -155,11 +136,9 @@
         box-shadow: 0 5px 18px rgba(31, 38, 68, 0.03);
         transition:
           transform 0.2s ease,
-          box-shadow 0.2s ease,
-          border-color 0.2s ease;
+          box-shadow 0.2s ease;
       }
       .card:hover {
-        border-color: #c9c6ff;
         box-shadow: var(--shadow);
         transform: translateY(-4px);
       }
@@ -171,17 +150,9 @@
         height: 38px;
         margin-bottom: 27px;
         border-radius: 11px;
-        color: var(--violet-dark);
+        color: var(--dark);
         background: #eeedff;
         font-weight: 800;
-      }
-      .card:nth-child(3n) .number {
-        color: #087b6f;
-        background: #ddf7f2;
-      }
-      .card:nth-child(4n) .number {
-        color: #a45c10;
-        background: #fff0d9;
       }
       .tag {
         margin: 0 0 8px;
@@ -218,9 +189,6 @@
         text-decoration: none;
         font-size: 0.86rem;
         font-weight: 700;
-        transition:
-          background 0.2s ease,
-          color 0.2s ease;
       }
       .button.primary {
         border-color: var(--violet);
@@ -228,10 +196,10 @@
         background: var(--violet);
       }
       .button.primary:hover {
-        background: var(--violet-dark);
+        background: var(--dark);
       }
       .button.secondary:hover {
-        color: var(--violet-dark);
+        color: var(--dark);
         background: #f0efff;
       }
       .empty {
@@ -248,7 +216,6 @@
         color: var(--muted);
         font-size: 0.87rem;
       }
-
       @media (max-width: 950px) {
         .grid {
           grid-template-columns: repeat(2, 1fr);
@@ -261,13 +228,9 @@
         .hero {
           padding: 54px 0 48px;
         }
-        main {
-          padding-top: 34px;
-        }
         .toolbar {
           align-items: stretch;
           flex-direction: column;
-          gap: 16px;
         }
         .search {
           width: 100%;
@@ -284,17 +247,16 @@
         <p class="eyebrow">Independent study collection · 2026</p>
         <h1>Build your AI foundation.</h1>
         <p class="intro">
-          Thirteen focused reports to take you from machine learning fundamentals
-          to transformers, autonomous AI, and agentic systems.
+          Sixteen focused resources to take you from machine learning
+          fundamentals to transformers, autonomous AI, and agentic systems.
         </p>
         <div class="hero-meta" aria-label="Library statistics">
-          <span class="pill">13 reports</span>
-          <span class="pill">ML · DL · AI systems</span>
-          <span class="pill">Self-paced</span>
+          <span class="pill">15 reports · 1 video</span
+          ><span class="pill">ML · DL · AI systems</span
+          ><span class="pill">Self-paced</span>
         </div>
       </div>
     </header>
-
     <main class="shell">
       <div class="toolbar">
         <div>
@@ -303,17 +265,15 @@
             Start with the fundamentals, then move toward autonomous AI.
           </p>
         </div>
-        <label>
-          <span class="visually-hidden">Search reports</span>
-          <input
+        <label
+          ><span hidden>Search reports</span
+          ><input
             class="search"
             type="search"
             placeholder="Search reports…"
             aria-label="Search reports"
-          />
-        </label>
+        /></label>
       </div>
-
       <section class="grid" aria-label="AI reports">
         <article
           class="card"
@@ -539,6 +499,18 @@
           </p>
           <div class="actions">
             <a
+              class="button primary"
+              href="The_Agentic_AI_Blueprint.pdf"
+              target="_blank"
+              >Read report</a
+            ><a
+              class="button secondary"
+              href="The_Agentic_AI_Blueprint.pdf"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
         <article
           class="card"
           data-search="genai innovation pod blueprint generative ai innovation collaboration"
@@ -611,22 +583,74 @@
             >
           </div>
         </article>
+        <article
+          class="card"
+          data-search="enterprise ai blueprint enterprise artificial intelligence business"
+        >
+          <div class="number">14</div>
+          <p class="tag">Enterprise AI</p>
+          <h3>Enterprise AI Blueprint</h3>
+          <p class="description">
+            Guidance for designing and applying AI across the enterprise.
+          </p>
+          <div class="actions">
+            <a
               class="button primary"
-              href="The_Agentic_AI_Blueprint.pdf"
+              href="Enterprise_AI_Blueprint.pdf"
               target="_blank"
               >Read report</a
             ><a
               class="button secondary"
-              href="The_Agentic_AI_Blueprint.pdf"
+              href="Enterprise_AI_Blueprint.pdf"
               download
               >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="rag blueprint retrieval augmented generation generative ai"
+        >
+          <div class="number">15</div>
+          <p class="tag">Generative AI</p>
+          <h3>The RAG Blueprint</h3>
+          <p class="description">
+            Retrieval-augmented generation patterns for grounded AI systems.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="The_RAG_Blueprint.pdf"
+              target="_blank"
+              >Read report</a
+            ><a class="button secondary" href="The_RAG_Blueprint.pdf" download
+              >Download</a
+            >
+          </div>
+        </article>
+        <article
+          class="card"
+          data-search="ai in business strategy video youtube business artificial intelligence"
+        >
+          <div class="number">16</div>
+          <p class="tag">Video</p>
+          <h3>AI in Business Strategy</h3>
+          <p class="description">
+            Watch the recommended video on applying AI to business strategy.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="https://youtu.be/Eo1HK0InVc4"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Watch video</a
             >
           </div>
         </article>
       </section>
       <p class="empty">No reports match your search.</p>
     </main>
-
     <footer>
       <div class="shell">
         AI Learning Library · Open a report to begin your next deep dive.
