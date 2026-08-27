@@ -239,6 +239,91 @@
           grid-template-columns: 1fr;
         }
       }
+      /* Preview Dialog Styling */
+      dialog#previewDialog {
+        width: min(1000px, 95vw);
+        height: 85vh;
+        max-height: 85vh;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+        padding: 0;
+        margin: auto;
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+      }
+      dialog#previewDialog[open] {
+        display: flex;
+      }
+      dialog::backdrop {
+        background-color: rgba(23, 27, 59, 0.4);
+        backdrop-filter: blur(8px);
+      }
+      .dialog-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--line);
+        background: var(--card);
+      }
+      .dialog-header h2 {
+        font-size: 1.25rem;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+      }
+      .dialog-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .dialog-close-btn {
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        padding: 4px;
+        color: var(--muted);
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+        transition: background 0.2s, color 0.2s;
+      }
+      .dialog-close-btn:hover {
+        background: #f0efff;
+        color: var(--dark);
+      }
+      .dialog-content {
+        flex: 1;
+        padding: 0;
+        background: #f7f8fc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .dialog-content iframe,
+      .dialog-content video {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+      .dialog-content img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
     </style>
   </head>
   <body>
@@ -247,11 +332,11 @@
         <p class="eyebrow">Independent study collection · 2026</p>
         <h1>Build your AI foundation.</h1>
         <p class="intro">
-          Twenty focused resources to take you from machine learning
+          Twenty-one focused resources to take you from machine learning
           fundamentals to transformers, autonomous AI, and agentic systems.
         </p>
         <div class="hero-meta" aria-label="Library statistics">
-          <span class="pill">18 reports · 1 blueprint · 1 video</span
+          <span class="pill">18 reports · 1 blueprint · 2 videos</span
           ><span class="pill">ML · DL · AI systems</span
           ><span class="pill">Self-paced</span>
         </div>
@@ -742,6 +827,30 @@
             >
           </div>
         </article>
+        <article
+          class="card"
+          data-search="unveiling ml architecture video machine learning systems designs"
+        >
+          <div class="number">21</div>
+          <p class="tag">Video</p>
+          <h3>Unveiling ML Architecture</h3>
+          <p class="description">
+            Watch the video to explore modern machine learning systems and architecture design patterns.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="Unveiling_ML_Architecture.mp4"
+              target="_blank"
+              >Watch video</a
+            ><a
+              class="button secondary"
+              href="Unveiling_ML_Architecture.mp4"
+              download
+              >Download</a
+            >
+          </div>
+        </article>
       </section>
       <p class="empty">No reports match your search.</p>
     </main>
@@ -764,6 +873,108 @@
         });
         empty.style.display = visible ? 'none' : 'block';
       });
+
+      // Preview Dialog Logic
+      const dialog = document.getElementById('previewDialog');
+      const previewTitle = document.getElementById('previewTitle');
+      const previewContent = document.getElementById('previewContent');
+      const previewOpenLink = document.getElementById('previewOpenLink');
+      const previewCloseBtn = document.getElementById('previewCloseBtn');
+
+      function openPreview(url, type, title) {
+        previewTitle.textContent = title;
+        previewOpenLink.href = url;
+        previewContent.innerHTML = '';
+
+        if (type === 'pdf') {
+          const iframe = document.createElement('iframe');
+          iframe.src = url;
+          previewContent.appendChild(iframe);
+        } else if (type === 'video') {
+          const video = document.createElement('video');
+          video.src = url;
+          video.controls = true;
+          video.autoplay = true;
+          previewContent.appendChild(video);
+        } else if (type === 'image') {
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = title;
+          previewContent.appendChild(img);
+        } else if (type === 'youtube') {
+          const iframe = document.createElement('iframe');
+          let embedUrl = url;
+          if (url.includes('youtu.be/')) {
+            embedUrl = 'https://www.youtube.com/embed/' + url.split('youtu.be/')[1].split('?')[0];
+          } else if (url.includes('watch?v=')) {
+            embedUrl = 'https://www.youtube.com/embed/' + url.split('watch?v=')[1].split('&')[0];
+          }
+          iframe.src = embedUrl;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          iframe.allowFullscreen = true;
+          previewContent.appendChild(iframe);
+        }
+
+        dialog.showModal();
+      }
+
+      previewCloseBtn.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', () => {
+        previewContent.innerHTML = '';
+      });
+
+      document.querySelectorAll('.card .button.primary').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const href = btn.getAttribute('href');
+          if (!href) return;
+
+          let type = '';
+          const urlLower = href.toLowerCase();
+          if (urlLower.endsWith('.pdf')) {
+            type = 'pdf';
+          } else if (urlLower.endsWith('.mp4')) {
+            type = 'video';
+          } else if (urlLower.endsWith('.png') || urlLower.endsWith('.jpg') || urlLower.endsWith('.jpeg')) {
+            type = 'image';
+          } else if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) {
+            type = 'youtube';
+          }
+
+          if (type) {
+            e.preventDefault();
+            const card = btn.closest('.card');
+            const title = card.querySelector('h3').textContent;
+            openPreview(href, type, title);
+          }
+        });
+      });
+
+      if (!('closedBy' in HTMLDialogElement.prototype)) {
+        dialog.addEventListener('click', (event) => {
+          if (event.target !== dialog) return;
+          const rect = dialog.getBoundingClientRect();
+          const isDialogContent = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (!isDialogContent) {
+            dialog.close();
+          }
+        });
+      }
     </script>
+    <!-- Preview Dialog -->
+    <dialog id="previewDialog" closedby="any" aria-labelledby="previewTitle">
+      <div class="dialog-header">
+        <h2 id="previewTitle">Document Preview</h2>
+        <div class="dialog-actions">
+          <a id="previewOpenLink" class="button secondary" href="#" target="_blank">Open full document</a>
+          <button id="previewCloseBtn" class="dialog-close-btn" aria-label="Close dialog">&times;</button>
+        </div>
+      </div>
+      <div class="dialog-content" id="previewContent"></div>
+    </dialog>
   </body>
 </html>
