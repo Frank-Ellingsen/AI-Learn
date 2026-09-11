@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A curated AI learning library covering machine learning, deep learning, and agentic AI."
+      content="A curated AI learning library covering machine learning, deep learning, time series, and agentic AI."
     />
     <title>AI Learning Library</title>
     <style>
@@ -68,7 +68,7 @@
         letter-spacing: -0.06em;
       }
       .intro {
-        max-width: 620px;
+        max-width: 640px;
         margin: 24px 0 0;
         color: #d9dcff;
         font-size: 1.1rem;
@@ -92,7 +92,7 @@
       }
       .toolbar {
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         justify-content: space-between;
         gap: 24px;
         margin-bottom: 28px;
@@ -105,6 +105,39 @@
       .subtle {
         margin: 4px 0 0;
         color: var(--muted);
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .filter-btn {
+        padding: 7px 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--card);
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .filter-btn:hover {
+        border-color: var(--violet);
+        color: var(--dark);
+        background: #fafafe;
+      }
+      .filter-btn.active {
+        background: var(--violet);
+        border-color: var(--violet);
+        color: #fff;
+      }
+      .search-box-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
       }
       .search {
         width: min(300px, 100%);
@@ -120,6 +153,10 @@
         border-color: var(--violet);
         box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.15);
       }
+      .count-badge {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
       .grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -128,7 +165,7 @@
       .card {
         display: flex;
         flex-direction: column;
-        min-height: 300px;
+        min-height: 310px;
         padding: 22px;
         border: 1px solid var(--line);
         border-radius: 18px;
@@ -142,17 +179,45 @@
         box-shadow: var(--shadow);
         transform: translateY(-4px);
       }
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
       .number {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 38px;
         height: 38px;
-        margin-bottom: 27px;
         border-radius: 11px;
         color: var(--dark);
         background: #eeedff;
         font-weight: 800;
+        font-size: 0.92rem;
+      }
+      .format-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: #f1f3f9;
+        color: #55627a;
+      }
+      .format-badge.video {
+        background: #eef2ff;
+        color: #4338ca;
+      }
+      .format-badge.image {
+        background: #fdf2f8;
+        color: #be185d;
+      }
+      .format-badge.pdf {
+        background: #f1f5f9;
+        color: #475569;
       }
       .tag {
         margin: 0 0 8px;
@@ -164,14 +229,15 @@
       }
       h3 {
         margin: 0;
-        font-size: 1.2rem;
-        line-height: 1.18;
+        font-size: 1.18rem;
+        line-height: 1.2;
         letter-spacing: -0.025em;
       }
       .description {
-        margin: 13px 0 22px;
+        margin: 12px 0 20px;
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.91rem;
+        line-height: 1.48;
       }
       .actions {
         display: flex;
@@ -189,6 +255,7 @@
         text-decoration: none;
         font-size: 0.86rem;
         font-weight: 700;
+        cursor: pointer;
       }
       .button.primary {
         border-color: var(--violet);
@@ -198,17 +265,22 @@
       .button.primary:hover {
         background: var(--dark);
       }
+      .button.secondary {
+        color: var(--ink);
+        background: #fff;
+      }
       .button.secondary:hover {
         color: var(--dark);
         background: #f0efff;
       }
       .empty {
         display: none;
-        padding: 42px;
+        padding: 48px;
         border: 1px dashed #cbd0dc;
         border-radius: 16px;
         color: var(--muted);
         text-align: center;
+        font-size: 1rem;
       }
       footer {
         padding: 24px 0 35px;
@@ -220,6 +292,16 @@
         .grid {
           grid-template-columns: repeat(2, 1fr);
         }
+        .toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .search-box-wrap {
+          align-items: stretch;
+        }
+        .search {
+          width: 100%;
+        }
       }
       @media (max-width: 620px) {
         .shell {
@@ -227,13 +309,6 @@
         }
         .hero {
           padding: 54px 0 48px;
-        }
-        .toolbar {
-          align-items: stretch;
-          flex-direction: column;
-        }
-        .search {
-          width: 100%;
         }
         .grid {
           grid-template-columns: 1fr;
@@ -335,13 +410,15 @@
         <p class="eyebrow">Independent study collection · 2026</p>
         <h1>Build your AI foundation.</h1>
         <p class="intro">
-          Thirty-five focused learning resources spanning machine learning, deep
-          learning, AI architecture, enterprise strategy, and agentic systems.
+          Thirty-eight focused learning resources spanning machine learning, deep
+          learning, AI architecture, time series forecasting, and agentic systems.
         </p>
         <div class="hero-meta" aria-label="Library statistics">
-          <span class="pill">35 learning resources</span
-          ><span class="pill">ML · DL · AI systems</span
-          ><span class="pill">Self-paced</span>
+          <span class="pill">38 learning resources</span>
+          <span class="pill">33 blueprints & reports</span>
+          <span class="pill">4 video masterclasses</span>
+          <span class="pill">1 strategic roadmap</span>
+          <span class="pill">Self-paced</span>
         </div>
       </div>
     </header>
@@ -352,498 +429,37 @@
           <p class="subtle">
             Start with the fundamentals, then move toward autonomous AI.
           </p>
+          <div class="filters" role="group" aria-label="Filter resources">
+            <button class="filter-btn active" data-filter="all">All (38)</button>
+            <button class="filter-btn" data-filter="pdf">Reports & Blueprints (33)</button>
+            <button class="filter-btn" data-filter="video">Video Masterclasses (4)</button>
+            <button class="filter-btn" data-filter="image">Infographics (1)</button>
+          </div>
         </div>
-        <label
-          ><span hidden>Search reports</span
-          ><input
-            class="search"
-            type="search"
-            placeholder="Search reports…"
-            aria-label="Search reports"
-        /></label>
+        <div class="search-box-wrap">
+          <label>
+            <span hidden>Search reports</span>
+            <input
+              class="search"
+              type="search"
+              placeholder="Search 38 resources…"
+              aria-label="Search reports"
+            />
+          </label>
+          <span class="count-badge" id="visibleCount">Showing 38 of 38 resources</span>
+        </div>
       </div>
       <section class="grid" id="resourceGrid" aria-label="AI reports"></section>
-      <p class="empty">No reports match your search.</p>
+      <p class="empty" id="emptyState">No reports match your search or filter.</p>
     </main>
     <footer>
       <div class="shell">
-        AI Learning Library · Open a report to begin your next deep dive.
+        AI Learning Library · 38 comprehensive resources for modern AI engineering and decision systems.
       </div>
     </footer>
-    <script>
-      const resourceData = [
-        {
-          file: 'Agentic_AI_Architecture.pdf',
-          tag: 'Agentic AI',
-          title: 'Agentic AI Architecture',
-          description: 'Agent-based AI systems and architecture.',
-          type: 'pdf',
-          search: 'agentic ai architecture agents systems',
-        },
-        {
-          file: 'Agentic_AI_Playbook.pdf',
-          tag: 'Agentic AI',
-          title: 'Agentic AI Playbook',
-          description: 'Practical guidance for building agentic AI solutions.',
-          type: 'pdf',
-          search: 'agentic ai playbook practical building solutions',
-        },
-        {
-          file: 'Agentic_Architecture.pdf',
-          tag: 'Architecture',
-          title: 'Agentic Architecture',
-          description:
-            'Architecture patterns for agentic and autonomous systems.',
-          type: 'pdf',
-          search: 'agentic architecture systems patterns',
-        },
-        {
-          file: 'AI_Architecture_Blueprint.pdf',
-          tag: 'AI Systems',
-          title: 'AI Architecture Blueprint',
-          description:
-            'Core principles and design patterns for modern AI architectures.',
-          type: 'pdf',
-          search:
-            'ai architecture blueprint artificial intelligence systems architecture design patterns',
-        },
-        {
-          file: 'AI_Integration_Strategy_Blueprint.png',
-          tag: 'Strategy',
-          title: 'AI Integration Strategy Blueprint',
-          description:
-            'A visual guide to organizational transformation and AI integration.',
-          type: 'image',
-          search:
-            'ai integration strategy blueprint organizational transformation enterprise ai governance business',
-        },
-        {
-          file: 'AI_in_Business_Strategy.mp4',
-          tag: 'Video',
-          title: 'AI in Business Strategy',
-          description:
-            'A business strategy video on applying AI in the enterprise.',
-          type: 'video',
-          search:
-            'ai in business strategy video business artificial intelligence',
-        },
-        {
-          file: 'Architecting_Autonomous_AI.pdf',
-          tag: 'Autonomy',
-          title: 'Architecting Autonomous AI',
-          description: 'Architectures and patterns for autonomous AI systems.',
-          type: 'pdf',
-          search: 'architecting autonomous ai architectures patterns',
-        },
-        {
-          file: 'Architecting_Data_Flow.pdf',
-          tag: 'Data Flow',
-          title: 'Architecting Data Flow',
-          description:
-            'Data flow architecture for modern AI and analytics systems.',
-          type: 'pdf',
-          search: 'architecting data flow data architecture pipeline systems',
-        },
-        {
-          file: 'Azure_ML_Blueprint.pdf',
-          tag: 'Cloud AI',
-          title: 'Azure ML Blueprint',
-          description:
-            'Azure machine learning workflows, concepts, and deployment patterns.',
-          type: 'pdf',
-          search:
-            'azure ml blueprint azure machine learning cloud mlops models deployment',
-        },
-        {
-          file: 'Classification_Blueprint.pdf',
-          tag: 'Classification',
-          title: 'Classification Blueprint',
-          description:
-            'Classification workflows, foundations, and diagnostic thinking.',
-          type: 'pdf',
-          search:
-            'classification blueprint classification workflows diagnostic',
-        },
-        {
-          file: 'Classification_Diagnostic_Playbook.pdf',
-          tag: 'Diagnostics',
-          title: 'Classification Diagnostic Playbook',
-          description: 'Classification diagnostics and playbook guidance.',
-          type: 'pdf',
-          search:
-            'classification diagnostic playbook classification diagnostics metrics',
-        },
-        {
-          file: 'Deep_Learning_Blueprint.pdf',
-          tag: 'Deep Learning',
-          title: 'Deep Learning Blueprint',
-          description:
-            'Neural networks and practical deep learning techniques.',
-          type: 'pdf',
-          search: 'deep learning blueprint neural networks techniques',
-        },
-        {
-          file: 'Enterprise_AI_Blueprint.pdf',
-          tag: 'Enterprise AI',
-          title: 'Enterprise AI Blueprint',
-          description:
-            'Guidance for designing and applying AI across the enterprise.',
-          type: 'pdf',
-          search:
-            'enterprise ai blueprint enterprise artificial intelligence business',
-        },
-        {
-          file: 'GenAI_Innovation_Pod_Blueprint.pdf',
-          tag: 'Generative AI',
-          title: 'GenAI Innovation Pod Blueprint',
-          description:
-            'A blueprint for organizing and scaling generative AI innovation.',
-          type: 'pdf',
-          search:
-            'genai innovation pod blueprint generative ai innovation collaboration',
-        },
-        {
-          file: 'Machine_Learning_Atlas.pdf',
-          tag: 'Foundations',
-          title: 'Machine Learning Atlas',
-          description:
-            'A broad guide to machine learning concepts, algorithms, and models.',
-          type: 'pdf',
-          search:
-            'machine learning atlas machine learning guide concepts algorithms models',
-        },
-        {
-          file: 'Machine_Learning_Blueprint.pdf',
-          tag: 'Foundations',
-          title: 'Machine Learning Blueprint',
-          description: 'Core machine learning concepts and workflows.',
-          type: 'pdf',
-          search:
-            'machine learning blueprint core concepts workflows fundamentals',
-        },
-        {
-          file: 'Mastering_the_GitHub_Workflow.pdf',
-          tag: 'Engineering',
-          title: 'Mastering the GitHub Workflow',
-          description:
-            'A practical guide to GitHub collaboration and engineering workflows.',
-          type: 'pdf',
-          search:
-            'mastering the github workflow git collaboration version control engineering',
-        },
-        {
-          file: 'Modern_AI_Engineering_Blueprint.pdf',
-          tag: 'Engineering',
-          title: 'Modern AI Engineering Blueprint',
-          description:
-            'Engineering systems and delivery patterns for modern AI.',
-          type: 'pdf',
-          search:
-            'modern ai engineering blueprint engineering pipelines ai systems',
-        },
-        {
-          file: 'Modern_AI_Systems_Architecture.pdf',
-          tag: 'Systems',
-          title: 'Modern AI Systems Architecture',
-          description: 'Designing and structuring modern AI systems.',
-          type: 'pdf',
-          search: 'modern ai systems architecture design structure',
-        },
-        {
-          file: 'Modern_Data_Engineering_Blueprint.pdf',
-          tag: 'Data Engineering',
-          title: 'Modern Data Engineering Blueprint',
-          description:
-            'Data engineering foundations and modern delivery patterns.',
-          type: 'pdf',
-          search:
-            'modern data engineering blueprint data pipelines architecture',
-        },
-        {
-          file: 'PyCaret_Machine_Learning_on_Autopilot.pdf',
-          tag: 'ML Tooling',
-          title: 'PyCaret Machine Learning on Autopilot',
-          description:
-            'Automated machine learning workflows with PyCaret and practical guidance.',
-          type: 'pdf',
-          search:
-            'pycaret machine learning on autopilot automated ml pycaret workflows',
-        },
-        {
-          file: 'Regression_Diagnostic_Toolkit.pdf',
-          tag: 'Diagnostics',
-          title: 'Regression Diagnostic Toolkit',
-          description:
-            'A toolkit for regression diagnostics and model evaluation.',
-          type: 'pdf',
-          search:
-            'regression diagnostic toolkit regression evaluation models diagnostics',
-        },
-        {
-          file: 'Supervised_Learning_Fundamentals.pdf',
-          tag: 'Foundations',
-          title: 'Supervised Learning Fundamentals',
-          description: 'Supervised learning methods and foundational ideas.',
-          type: 'pdf',
-          search: 'supervised learning fundamentals methods foundations',
-        },
-        {
-          file: 'The_Agentic_AI_Blueprint.pdf',
-          tag: 'Agentic AI',
-          title: 'The Agentic AI Blueprint',
-          description:
-            'A blueprint for designing and building capable agentic AI systems.',
-          type: 'pdf',
-          search: 'agentic ai blueprint agents autonomous systems practical',
-        },
-        {
-          file: 'The_AI_Production_Blueprint.pdf',
-          tag: 'Production AI',
-          title: 'The AI Production Blueprint',
-          description: 'Operational patterns for productionizing AI systems.',
-          type: 'pdf',
-          search:
-            'ai production blueprint production ai operational systems deployment',
-        },
-        {
-          file: 'The_Data_Refinery_Blueprint.pdf',
-          tag: 'Data Quality',
-          title: 'The Data Refinery Blueprint',
-          description:
-            'Data preparation, quality, and transformation patterns.',
-          type: 'pdf',
-          search:
-            'data refinery blueprint data quality transformation analytics',
-        },
-        {
-          file: 'The_MCP_Standard.pdf',
-          tag: 'Standards',
-          title: 'The MCP Standard',
-          description:
-            'Understanding the Model Context Protocol and its standards.',
-          type: 'pdf',
-          search: 'mcp standard protocol model context protocol integration',
-        },
-        {
-          file: 'The_PAD_GenAI_Blueprint.pdf',
-          tag: 'Generative AI',
-          title: 'The PAD GenAI Blueprint',
-          description:
-            'A practical framework for developing generative AI solutions.',
-          type: 'pdf',
-          search: 'pad genai blueprint generative ai process development',
-        },
-        {
-          file: 'The_POR_Scaling_Blueprint.pdf',
-          tag: 'AI Systems',
-          title: 'The POR Scaling Blueprint',
-          description:
-            'Strategies for scaling AI systems from prototypes to production.',
-          type: 'pdf',
-          search:
-            'por scaling blueprint generative ai production scale operations',
-        },
-        {
-          file: 'The_RAG_Blueprint.pdf',
-          tag: 'Generative AI',
-          title: 'The RAG Blueprint',
-          description:
-            'Retrieval-augmented generation patterns for grounded AI systems.',
-          type: 'pdf',
-          search: 'rag blueprint retrieval augmented generation generative ai',
-        },
-        {
-          file: 'The_Regression_Blueprint.pdf',
-          tag: 'Regression',
-          title: 'The Regression Blueprint',
-          description:
-            'Regression models, diagnostics, and application patterns.',
-          type: 'pdf',
-          search: 'regression blueprint regression models prediction analytics',
-        },
-        {
-          file: 'The_Transformer_Blueprint.pdf',
-          tag: 'Deep Learning',
-          title: 'The Transformer Blueprint',
-          description:
-            'Transformer architecture, attention, and language model patterns.',
-          type: 'pdf',
-          search:
-            'transformer blueprint transformers attention language models deep learning',
-        },
-        {
-          file: 'Unsupervised_Learning_Playbook.pdf',
-          tag: 'Foundations',
-          title: 'Unsupervised Learning Playbook',
-          description:
-            'Unsupervised learning techniques and applied playbook patterns.',
-          type: 'pdf',
-          search:
-            'unsupervised learning playbook clustering dimensionality reduction pattern discovery',
-        },
-        {
-          file: 'Unsupervised_Learning_Strategy.pdf',
-          tag: 'Foundations',
-          title: 'Unsupervised Learning Strategy',
-          description:
-            'Clustering, dimensionality reduction, and pattern discovery.',
-          type: 'pdf',
-          search:
-            'unsupervised learning strategy clustering dimensionality reduction patterns',
-        },
-        {
-          file: 'Unveiling_ML_Architecture.mp4',
-          tag: 'Video',
-          title: 'Unveiling ML Architecture',
-          description:
-            'A video exploring modern machine learning systems and architecture design patterns.',
-          type: 'video',
-          search:
-            'unveiling ml architecture video machine learning systems designs',
-        },
-      ];
 
-      const resourceGrid = document.getElementById('resourceGrid');
-
-      function renderResourceGrid() {
-        resourceGrid.innerHTML = resourceData
-          .map(
-            (resource, index) => `
-          <article class="card" data-search="${resource.search}">
-            <div class="number">${String(index + 1).padStart(2, '0')}</div>
-            <p class="tag">${resource.tag}</p>
-            <h3>${resource.title}</h3>
-            <p class="description">${resource.description}</p>
-            <div class="actions">
-              <a class="button primary" href="${resource.file}" ${resource.type === 'video' ? 'target="_blank"' : 'target="_blank"'}>${resource.type === 'image' ? 'View blueprint' : resource.type === 'video' ? 'Watch video' : 'Read report'}</a>
-              <a class="button secondary" href="${resource.file}" download>Download</a>
-            </div>
-          </article>
-        `
-          )
-          .join('');
-      }
-
-      renderResourceGrid();
-
-      const search = document.querySelector('.search');
-      const cards = [...document.querySelectorAll('.card')];
-      const empty = document.querySelector('.empty');
-      search.addEventListener('input', () => {
-        const query = search.value.trim().toLowerCase();
-        let visible = 0;
-        cards.forEach((card) => {
-          const match = card.dataset.search.includes(query);
-          card.hidden = !match;
-          if (match) visible++;
-        });
-        empty.style.display = visible ? 'none' : 'block';
-      });
-
-      // Preview Dialog Logic
-      const dialog = document.getElementById('previewDialog');
-      const previewTitle = document.getElementById('previewTitle');
-      const previewContent = document.getElementById('previewContent');
-      const previewOpenLink = document.getElementById('previewOpenLink');
-      const previewCloseBtn = document.getElementById('previewCloseBtn');
-
-      function openPreview(url, type, title) {
-        previewTitle.textContent = title;
-        previewOpenLink.href = url;
-        previewContent.innerHTML = '';
-
-        if (type === 'pdf') {
-          const iframe = document.createElement('iframe');
-          iframe.src = url;
-          previewContent.appendChild(iframe);
-        } else if (type === 'video') {
-          const video = document.createElement('video');
-          video.src = url;
-          video.controls = true;
-          video.autoplay = true;
-          previewContent.appendChild(video);
-        } else if (type === 'image') {
-          const img = document.createElement('img');
-          img.src = url;
-          img.alt = title;
-          previewContent.appendChild(img);
-        } else if (type === 'youtube') {
-          const iframe = document.createElement('iframe');
-          let embedUrl = url;
-          if (url.includes('youtu.be/')) {
-            embedUrl =
-              'https://www.youtube.com/embed/' +
-              url.split('youtu.be/')[1].split('?')[0];
-          } else if (url.includes('watch?v=')) {
-            embedUrl =
-              'https://www.youtube.com/embed/' +
-              url.split('watch?v=')[1].split('&')[0];
-          }
-          iframe.src = embedUrl;
-          iframe.allow =
-            'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-          iframe.allowFullscreen = true;
-          previewContent.appendChild(iframe);
-        }
-
-        dialog.showModal();
-      }
-
-      previewCloseBtn.addEventListener('click', () => dialog.close());
-      dialog.addEventListener('close', () => {
-        previewContent.innerHTML = '';
-      });
-
-      document.querySelectorAll('.card .button.primary').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          const href = btn.getAttribute('href');
-          if (!href) return;
-
-          let type = '';
-          const urlLower = href.toLowerCase();
-          if (urlLower.endsWith('.pdf')) {
-            type = 'pdf';
-          } else if (urlLower.endsWith('.mp4')) {
-            type = 'video';
-          } else if (
-            urlLower.endsWith('.png') ||
-            urlLower.endsWith('.jpg') ||
-            urlLower.endsWith('.jpeg')
-          ) {
-            type = 'image';
-          } else if (
-            urlLower.includes('youtube.com') ||
-            urlLower.includes('youtu.be')
-          ) {
-            type = 'youtube';
-          }
-
-          if (type) {
-            e.preventDefault();
-            const card = btn.closest('.card');
-            const title = card.querySelector('h3').textContent;
-            openPreview(href, type, title);
-          }
-        });
-      });
-
-      if (!('closedBy' in HTMLDialogElement.prototype)) {
-        dialog.addEventListener('click', (event) => {
-          if (event.target !== dialog) return;
-          const rect = dialog.getBoundingClientRect();
-          const isDialogContent =
-            rect.top <= event.clientY &&
-            event.clientY <= rect.top + rect.height &&
-            rect.left <= event.clientX &&
-            event.clientX <= rect.left + rect.width;
-          if (!isDialogContent) {
-            dialog.close();
-          }
-        });
-      }
-    </script>
     <!-- Preview Dialog -->
-    <dialog id="previewDialog" closedby="any" aria-labelledby="previewTitle">
+    <dialog id="previewDialog" aria-labelledby="previewTitle">
       <div class="dialog-header">
         <h2 id="previewTitle">Document Preview</h2>
         <div class="dialog-actions">
@@ -865,5 +481,516 @@
       </div>
       <div class="dialog-content" id="previewContent"></div>
     </dialog>
+
+    <script>
+      const resourceData = [
+        {
+          file: 'Agentic_AI_Architecture.pdf',
+          tag: 'Agentic AI',
+          title: 'Agentic AI Architecture',
+          description: 'Agent-based AI systems, autonomy loops, and architectural patterns.',
+          type: 'pdf',
+          size: '13.3 MB',
+          search: 'agentic ai architecture agents systems autonomous planning reasoning',
+        },
+        {
+          file: 'Agentic_AI_Playbook.pdf',
+          tag: 'Agentic AI',
+          title: 'Agentic AI Playbook',
+          description: 'Practical guidance, frameworks, and patterns for building agentic AI solutions.',
+          type: 'pdf',
+          size: '12.1 MB',
+          search: 'agentic ai playbook practical building solutions autonomous agents execution',
+        },
+        {
+          file: 'Agentic_Architecture.pdf',
+          tag: 'Architecture',
+          title: 'Agentic Architecture',
+          description: 'Structural patterns, communication protocols, and execution loops for autonomous agents.',
+          type: 'pdf',
+          size: '10.5 MB',
+          search: 'agentic architecture systems patterns multi-agent orchestration',
+        },
+        {
+          file: 'AI_Architecture_Blueprint.pdf',
+          tag: 'AI Systems',
+          title: 'AI Architecture Blueprint',
+          description: 'Core principles, topology, and design patterns for modern AI architectures.',
+          type: 'pdf',
+          size: '17.1 MB',
+          search: 'ai architecture blueprint artificial intelligence systems architecture design patterns',
+        },
+        {
+          file: 'AI_in_Business_Strategy.mp4',
+          tag: 'Video',
+          title: 'AI in Business Strategy',
+          description: 'Executive strategy video on aligning artificial intelligence with enterprise value.',
+          type: 'video',
+          size: '18.2 MB',
+          search: 'ai in business strategy video business artificial intelligence executive roi strategy',
+        },
+        {
+          file: 'AI_Integration_Strategy_Blueprint.png',
+          tag: 'Strategy',
+          title: 'AI Integration Strategy Blueprint',
+          description: 'A visual roadmap for organizational transformation, governance, and AI integration.',
+          type: 'image',
+          size: '5.5 MB',
+          search: 'ai integration strategy blueprint organizational transformation enterprise ai governance roadmap',
+        },
+        {
+          file: 'Architecting_Autonomous_AI.pdf',
+          tag: 'Autonomy',
+          title: 'Architecting Autonomous AI',
+          description: 'System architectures, guardrails, and decision frameworks for autonomous AI agents.',
+          type: 'pdf',
+          size: '13.5 MB',
+          search: 'architecting autonomous ai architectures patterns decision making guardrails',
+        },
+        {
+          file: 'Architecting_Data_Flow.pdf',
+          tag: 'Data Flow',
+          title: 'Architecting Data Flow',
+          description: 'Data flow architecture, streaming pipelines, and ingestion topologies for AI systems.',
+          type: 'pdf',
+          size: '15.1 MB',
+          search: 'architecting data flow data architecture pipeline systems streaming etl',
+        },
+        {
+          file: 'Azure_ML_Blueprint.pdf',
+          tag: 'Cloud AI',
+          title: 'Azure ML Blueprint',
+          description: 'Azure machine learning workflows, cloud deployment patterns, and enterprise MLOps.',
+          type: 'pdf',
+          size: '16.0 MB',
+          search: 'azure ml blueprint azure machine learning cloud mlops models deployment cloud',
+        },
+        {
+          file: 'Classification_Blueprint.pdf',
+          tag: 'Classification',
+          title: 'Classification Blueprint',
+          description: 'Classification workflows, algorithm selection, boundary diagnostics, and metrics.',
+          type: 'pdf',
+          size: '12.5 MB',
+          search: 'classification blueprint classification workflows diagnostic logistic random forest',
+        },
+        {
+          file: 'Classification_Diagnostic_Playbook.pdf',
+          tag: 'Diagnostics',
+          title: 'Classification Diagnostic Playbook',
+          description: 'In-depth diagnostic frameworks, confusion matrix analysis, and calibration playbooks.',
+          type: 'pdf',
+          size: '13.0 MB',
+          search: 'classification diagnostic playbook classification diagnostics metrics roc auc precision recall',
+        },
+        {
+          file: 'Deconstructing_the_Future__The_Logic_of_Time_Series.mp4',
+          tag: 'Video',
+          title: 'Deconstructing the Future: The Logic of Time Series',
+          description: 'Masterclass video exploring temporal logic, trend decomposition, and forecasting principles.',
+          type: 'video',
+          size: '49.7 MB',
+          search: 'deconstructing the future the logic of time series video forecasting temporal trends seasonality arima forecasting models time series',
+        },
+        {
+          file: 'Deep_Learning_Blueprint.pdf',
+          tag: 'Deep Learning',
+          title: 'Deep Learning Blueprint',
+          description: 'Neural network architectures, backpropagation, optimization, and practical deep learning.',
+          type: 'pdf',
+          size: '15.9 MB',
+          search: 'deep learning blueprint neural networks techniques backpropagation cnn rnn',
+        },
+        {
+          file: 'Engineering_the_ML-to-GenAI_Pipeline.mp4',
+          tag: 'Video',
+          title: 'Engineering the ML-to-GenAI Pipeline',
+          description: 'Technical video on bridging classic machine learning workflows into modern generative AI pipelines.',
+          type: 'video',
+          size: '82.1 MB',
+          search: 'engineering the ml to genai pipeline video machine learning generative ai pipelines architecture orchestration rag',
+        },
+        {
+          file: 'Enterprise_AI_Blueprint.pdf',
+          tag: 'Enterprise AI',
+          title: 'Enterprise AI Blueprint',
+          description: 'Architectural blueprint for scalable enterprise AI deployment, governance, and security.',
+          type: 'pdf',
+          size: '18.2 MB',
+          search: 'enterprise ai blueprint enterprise artificial intelligence business governance security',
+        },
+        {
+          file: 'GenAI_Innovation_Pod_Blueprint.pdf',
+          tag: 'Generative AI',
+          title: 'GenAI Innovation Pod Blueprint',
+          description: 'Framework for organizing rapid generative AI innovation pods and cross-functional teams.',
+          type: 'pdf',
+          size: '16.4 MB',
+          search: 'genai innovation pod blueprint generative ai innovation collaboration agile pods',
+        },
+        {
+          file: 'Machine_Learning_Atlas.pdf',
+          tag: 'Foundations',
+          title: 'Machine Learning Atlas',
+          description: 'A comprehensive map of machine learning algorithms, paradigms, and mathematical models.',
+          type: 'pdf',
+          size: '19.6 MB',
+          search: 'machine learning atlas machine learning guide concepts algorithms models reference map',
+        },
+        {
+          file: 'Machine_Learning_Blueprint.pdf',
+          tag: 'Foundations',
+          title: 'Machine Learning Blueprint',
+          description: 'Core machine learning concepts, workflow lifecycle, and end-to-end model development.',
+          type: 'pdf',
+          size: '16.2 MB',
+          search: 'machine learning blueprint core concepts workflows fundamentals lifecycle modeling',
+        },
+        {
+          file: 'Mastering_the_GitHub_Workflow.pdf',
+          tag: 'Engineering',
+          title: 'Mastering the GitHub Workflow',
+          description: 'Best practices for version control, collaborative branch management, CI/CD, and PR reviews.',
+          type: 'pdf',
+          size: '12.0 MB',
+          search: 'mastering the github workflow git collaboration version control engineering ci cd gitops',
+        },
+        {
+          file: 'Modern_AI_Engineering_Blueprint.pdf',
+          tag: 'Engineering',
+          title: 'Modern AI Engineering Blueprint',
+          description: 'Production AI engineering practices, robust pipelines, and operational delivery patterns.',
+          type: 'pdf',
+          size: '12.4 MB',
+          search: 'modern ai engineering blueprint engineering pipelines ai systems mlops delivery',
+        },
+        {
+          file: 'Modern_AI_Systems_Architecture.pdf',
+          tag: 'Systems',
+          title: 'Modern AI Systems Architecture',
+          description: 'System-level blueprint for high-throughput, fault-tolerant modern AI applications.',
+          type: 'pdf',
+          size: '19.8 MB',
+          search: 'modern ai systems architecture design structure distributed systems scaling',
+        },
+        {
+          file: 'Modern_Data_Engineering_Blueprint.pdf',
+          tag: 'Data Engineering',
+          title: 'Modern Data Engineering Blueprint',
+          description: 'Modern data stack foundations, warehouse topologies, and scalable transformation patterns.',
+          type: 'pdf',
+          size: '12.0 MB',
+          search: 'modern data engineering blueprint data pipelines architecture lakehouse dbt etl',
+        },
+        {
+          file: 'PyCaret_Machine_Learning_on_Autopilot.pdf',
+          tag: 'ML Tooling',
+          title: 'PyCaret Machine Learning on Autopilot',
+          description: 'Low-code automated machine learning workflows, model benchmark comparison, and tuning.',
+          type: 'pdf',
+          size: '17.1 MB',
+          search: 'pycaret machine learning on autopilot automated ml pycaret workflows automl rapid prototyping',
+        },
+        {
+          file: 'Regression_Diagnostic_Toolkit.pdf',
+          tag: 'Diagnostics',
+          title: 'Regression Diagnostic Toolkit',
+          description: 'Residual analysis, multicollinearity checks, homoscedasticity tests, and evaluation tools.',
+          type: 'pdf',
+          size: '15.9 MB',
+          search: 'regression diagnostic toolkit regression evaluation models diagnostics residuals r2 rmse',
+        },
+        {
+          file: 'Supervised_Learning_Fundamentals.pdf',
+          tag: 'Foundations',
+          title: 'Supervised Learning Fundamentals',
+          description: 'Essential mathematical foundations and algorithms for regression and classification.',
+          type: 'pdf',
+          size: '11.3 MB',
+          search: 'supervised learning fundamentals methods foundations mathematical loss optimization',
+        },
+        {
+          file: 'The_Agentic_AI_Blueprint.pdf',
+          tag: 'Agentic AI',
+          title: 'The Agentic AI Blueprint',
+          description: 'Architectural blueprint for building resilient, goal-directed agentic AI systems.',
+          type: 'pdf',
+          size: '17.3 MB',
+          search: 'agentic ai blueprint agents autonomous systems practical cognitive architectures',
+        },
+        {
+          file: 'The_AI_Production_Blueprint.pdf',
+          tag: 'Production AI',
+          title: 'The AI Production Blueprint',
+          description: 'Operational patterns for productionizing AI, telemetry, drift monitoring, and reliability.',
+          type: 'pdf',
+          size: '15.1 MB',
+          search: 'ai production blueprint production ai operational systems deployment telemetry monitoring',
+        },
+        {
+          file: 'The_Data_Refinery_Blueprint.pdf',
+          tag: 'Data Quality',
+          title: 'The Data Refinery Blueprint',
+          description: 'Data curation, feature store design, data cleansing, and validation frameworks.',
+          type: 'pdf',
+          size: '20.8 MB',
+          search: 'data refinery blueprint data quality transformation analytics curation cleansing',
+        },
+        {
+          file: 'The_MCP_Standard.pdf',
+          tag: 'Standards',
+          title: 'The MCP Standard',
+          description: "Deep dive into Anthropic's Model Context Protocol, server/client patterns, and tooling standards.",
+          type: 'pdf',
+          size: '11.8 MB',
+          search: 'mcp standard protocol model context protocol integration tools server client',
+        },
+        {
+          file: 'The_PAD_GenAI_Blueprint.pdf',
+          tag: 'Generative AI',
+          title: 'The PAD GenAI Blueprint',
+          description: 'Prompt-Augmentation-Delivery framework for production-grade generative AI applications.',
+          type: 'pdf',
+          size: '12.0 MB',
+          search: 'pad genai blueprint generative ai process development prompt augmentation delivery',
+        },
+        {
+          file: 'The_POR_Scaling_Blueprint.pdf',
+          tag: 'AI Systems',
+          title: 'The POR Scaling Blueprint',
+          description: 'Systematic scaling blueprint for AI workloads: Prototype, Operationalize, and Scale.',
+          type: 'pdf',
+          size: '15.0 MB',
+          search: 'por scaling blueprint generative ai production scale operations throughput scaling',
+        },
+        {
+          file: 'The_RAG_Blueprint.pdf',
+          tag: 'Generative AI',
+          title: 'The RAG Blueprint',
+          description: 'Vector databases, hybrid search, reranking, and chunking patterns for grounded AI.',
+          type: 'pdf',
+          size: '16.1 MB',
+          search: 'rag blueprint retrieval augmented generation generative ai vector embeddings chunking hybrid search',
+        },
+        {
+          file: 'The_Regression_Blueprint.pdf',
+          tag: 'Regression',
+          title: 'The Regression Blueprint',
+          description: 'Linear, polynomial, and regularized regression modeling, feature engineering, and diagnostics.',
+          type: 'pdf',
+          size: '12.3 MB',
+          search: 'regression blueprint regression models prediction analytics ridge lasso regularization',
+        },
+        {
+          file: 'The_Transformer_Blueprint.pdf',
+          tag: 'Deep Learning',
+          title: 'The Transformer Blueprint',
+          description: 'Self-attention mechanics, transformer blocks, rotary embeddings, and LLM foundations.',
+          type: 'pdf',
+          size: '17.8 MB',
+          search: 'transformer blueprint transformers attention language models deep learning attention llm',
+        },
+        {
+          file: 'Time_Series_Blueprint.pdf',
+          tag: 'Time Series',
+          title: 'Time Series Blueprint',
+          description: 'Comprehensive guide to temporal data modeling, ARIMA/Prophet, seasonal decomposition, and forecasting.',
+          type: 'pdf',
+          size: '14.1 MB',
+          search: 'time series blueprint forecasting temporal models analysis trend seasonality prediction decomposition',
+        },
+        {
+          file: 'Unsupervised_Learning_Playbook.pdf',
+          tag: 'Foundations',
+          title: 'Unsupervised Learning Playbook',
+          description: 'Clustering algorithms, dimensionality reduction, anomaly detection, and manifold learning.',
+          type: 'pdf',
+          size: '13.1 MB',
+          search: 'unsupervised learning playbook clustering dimensionality reduction pattern discovery kmeans pca',
+        },
+        {
+          file: 'Unsupervised_Learning_Strategy.pdf',
+          tag: 'Foundations',
+          title: 'Unsupervised Learning Strategy',
+          description: 'Strategic roadmap for exploratory analysis, customer segmentation, and feature extraction.',
+          type: 'pdf',
+          size: '15.0 MB',
+          search: 'unsupervised learning strategy clustering dimensionality reduction patterns segmentation',
+        },
+        {
+          file: 'Unveiling_ML_Architecture.mp4',
+          tag: 'Video',
+          title: 'Unveiling ML Architecture',
+          description: 'Technical video lecture deconstructing production machine learning architectures and infrastructure.',
+          type: 'video',
+          size: '28.6 MB',
+          search: 'unveiling ml architecture video machine learning systems designs topology pipelines',
+        },
+      ];
+
+      const resourceGrid = document.getElementById('resourceGrid');
+      const search = document.querySelector('.search');
+      const emptyState = document.getElementById('emptyState');
+      const visibleCountEl = document.getElementById('visibleCount');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+
+      let activeFilter = 'all';
+      let searchQuery = '';
+
+      function renderResourceGrid() {
+        resourceGrid.innerHTML = resourceData
+          .map((resource, index) => {
+            const isVideo = resource.type === 'video';
+            const isImage = resource.type === 'image';
+            const actionLabel = isImage ? 'View blueprint' : isVideo ? 'Watch video' : 'Read report';
+
+            return `
+              <article class="card" data-search="${resource.search}" data-type="${resource.type}">
+                <div class="card-header">
+                  <div class="number">${String(index + 1).padStart(2, '0')}</div>
+                  <span class="format-badge ${resource.type}">${resource.type.toUpperCase()} · ${resource.size}</span>
+                </div>
+                <p class="tag">${resource.tag}</p>
+                <h3>${resource.title}</h3>
+                <p class="description">${resource.description}</p>
+                <div class="actions">
+                  <a class="button primary" href="${resource.file}" target="_blank">${actionLabel}</a>
+                  <a class="button secondary" href="${resource.file}" download>Download</a>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+      }
+
+      function updateGridVisibility() {
+        const cards = resourceGrid.querySelectorAll('.card');
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const matchesType = activeFilter === 'all' || card.dataset.type === activeFilter;
+          const matchesSearch = !searchQuery || card.dataset.search.includes(searchQuery);
+
+          if (matchesType && matchesSearch) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCountEl) {
+          visibleCountEl.textContent = `Showing ${visibleCount} of ${resourceData.length} resources`;
+        }
+        emptyState.style.display = visibleCount ? 'none' : 'block';
+      }
+
+      // Filter button clicks
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.dataset.filter;
+          updateGridVisibility();
+        });
+      });
+
+      // Search input handler
+      search.addEventListener('input', () => {
+        searchQuery = search.value.trim().toLowerCase();
+        updateGridVisibility();
+      });
+
+      // Preview Dialog Logic
+      const dialog = document.getElementById('previewDialog');
+      const previewTitle = document.getElementById('previewTitle');
+      const previewContent = document.getElementById('previewContent');
+      const previewOpenLink = document.getElementById('previewOpenLink');
+      const previewCloseBtn = document.getElementById('previewCloseBtn');
+
+      function openPreview(url, type, title) {
+        previewTitle.textContent = title;
+        previewOpenLink.href = url;
+        previewOpenLink.textContent =
+          type === 'video' ? 'Open video in new tab' :
+          type === 'image' ? 'Open image in new tab' :
+          'Open full document';
+        previewContent.innerHTML = '';
+
+        if (type === 'pdf') {
+          const iframe = document.createElement('iframe');
+          iframe.src = url;
+          previewContent.appendChild(iframe);
+        } else if (type === 'video') {
+          const video = document.createElement('video');
+          video.src = url;
+          video.controls = true;
+          video.autoplay = true;
+          previewContent.appendChild(video);
+        } else if (type === 'image') {
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = title;
+          previewContent.appendChild(img);
+        }
+
+        dialog.showModal();
+      }
+
+      previewCloseBtn.addEventListener('click', () => dialog.close());
+
+      dialog.addEventListener('close', () => {
+        previewContent.innerHTML = '';
+      });
+
+      // Close modal when clicking on backdrop
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+          const rect = dialog.getBoundingClientRect();
+          const isDialogContent =
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width;
+          if (!isDialogContent) {
+            dialog.close();
+          }
+        }
+      });
+
+      // Event delegation for primary action buttons on cards
+      resourceGrid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.button.primary');
+        if (!btn) return;
+
+        const href = btn.getAttribute('href');
+        if (!href) return;
+
+        let type = '';
+        const urlLower = href.toLowerCase();
+        if (urlLower.endsWith('.pdf')) {
+          type = 'pdf';
+        } else if (urlLower.endsWith('.mp4')) {
+          type = 'video';
+        } else if (
+          urlLower.endsWith('.png') ||
+          urlLower.endsWith('.jpg') ||
+          urlLower.endsWith('.jpeg')
+        ) {
+          type = 'image';
+        }
+
+        if (type) {
+          e.preventDefault();
+          const card = btn.closest('.card');
+          const title = card ? card.querySelector('h3').textContent : 'Document Preview';
+          openPreview(href, type, title);
+        }
+      });
+
+      // Initial render
+      renderResourceGrid();
+      updateGridVisibility();
+    </script>
   </body>
 </html>
